@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Example</title>
+<script src="/fslogger-client.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+</head>
+
+<body>
+
+
+Primera Prueba
+
+<script>
+	
+	$.ajax({
+	  type: "POST",
+	  url: '/log/ejemplo'
+	});
+
+	fsLogger.trace('Welcome');
+	fsLogger.debug('To');
+	fsLogger.info('Full');
+	fsLogger.warn('Stack');
+	fsLogger.error('Logger');
+</script>
+	
+</body>
+</html>
