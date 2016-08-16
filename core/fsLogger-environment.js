@@ -3,6 +3,7 @@
 *	08/2016
 *   Environment
 */
+var PATH_DB = "./data/db/fslogger";
 
 module.exports = function (path, server, logger) {
 
@@ -21,6 +22,10 @@ module.exports = function (path, server, logger) {
 	app.use(bodyParser.urlencoded({     
 	  extended: true
 	}));
+
+	var Datastore = require('nedb')
+  	, db = new Datastore({ filename: PATH_DB, autoload: true });
+  	logger.setDb(db);
 
 	return app;
 }

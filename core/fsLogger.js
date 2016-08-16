@@ -13,45 +13,49 @@ var DEFAULT = '\x1b[0m';
 var URL_SERVER = './log/serverlog.log';
 var URL_CLIENT = './log/clientlog.log';
 var RETURN = "\n";
+var db = null;
 var OUTPUTLEVEL;
+var FILEPERSISTANCE;
 
-module.exports = function(oLevel) {
-
-	//Output Log path
-	if (!fs.existsSync('./log')){
-		fs.mkdirSync('./log');
-	}
+module.exports = function(oLevel, fileperst) {
 
 	OUTPUTLEVEL = oLevel || 2;
+	FILEPERSISTANCE = fileperst || false;
+
+	//Output Log path
+	if (!fs.existsSync('./log') && FILEPERSISTANCE){
+		fs.mkdirSync('./log');
+	}	
+
 	var fsLogger = {};
 	
 	fsLogger['trace'] = function(msg){
 		if(OUTPUTLEVEL <=0){
-			log(MAG, parseMsg(msg, 'TRACE'), true);
+			log(MAG, parseMsg(msg, 'TRACE'), true, 'TRACE');
 		}
 	};
 
 	fsLogger['debug'] = function(msg){
 		if(OUTPUTLEVEL <=1){
-			log(GREEN, parseMsg(msg, 'DEBUG'), true);
+			log(GREEN, parseMsg(msg, 'DEBUG'), true, 'DEBUG');
 		}
 	};
 
 	fsLogger['info'] = function(msg){
 		if(OUTPUTLEVEL <=2){
-			log(BLUE, parseMsg(msg, 'INFO '), true);
+			log(BLUE, parseMsg(msg, 'INFO '), true, 'INFO');
 		}
 	};
 
 	fsLogger['warn'] = function(msg){
 		if(OUTPUTLEVEL <=3){
-			log(YELLOW, parseMsg(msg, 'WARN '), true);
+			log(YELLOW, parseMsg(msg, 'WARN '), true, 'WARN');
 		}
 	};
 
 	fsLogger['error'] = function(msg){
 		if(OUTPUTLEVEL <=4){
-			log(RED, parseMsg(msg, 'ERROR'), true);
+			log(RED, parseMsg(msg, 'ERROR'), true, 'ERROR');
 		}
 	};
 
@@ -59,12 +63,20 @@ module.exports = function(oLevel) {
 		logClient (msg, level);
 	};
 
+	fsLogger['setDb']= function (dataBase){
+		db = dataBase;
+	};
+
+	fsLogger['getDb']= function (){
+		return db;
+	};
+
 	return fsLogger;
 }
 
-function log (color, text, file){
+function log (color, text, file, level){
 	console.log(color, text ,DEFAULT);
-	jPersistance (file?URL_SERVER:URL_CLIENT, text);
+	jPersistance (file?URL_SERVER:URL_CLIENT, text, level);
 }
 
 function parseMsg(msg , level){
@@ -78,27 +90,41 @@ function parseMsgClient(msg , level){
 function logClient (msg, level){
 
 	if(level == 'trace' && OUTPUTLEVEL<=0){
-		log(MAG, parseMsgClient(msg, 'TRACE', false));
+		log(MAG, parseMsgClient(msg, 'TRACE'), false, 'TRACE');
 	} else if(level == 'debug' && OUTPUTLEVEL<=1){
-		log(GREEN, parseMsgClient(msg, 'DEBUG', false));
+		log(GREEN, parseMsgClient(msg, 'DEBUG'), false, 'DEBUG');
 	}else if(level == 'info' && OUTPUTLEVEL<=2){
-		log(BLUE, parseMsgClient(msg, 'INFO ', false));
+		log(BLUE, parseMsgClient(msg, 'INFO '), false, 'INFO');
 	}else if(level == 'warn' && OUTPUTLEVEL<=3){
-		log(YELLOW, parseMsgClient(msg, 'WARN ', false));
+		log(YELLOW, parseMsgClient(msg, 'WARN '), false, 'WARN');
 	}else if(level == 'error' && OUTPUTLEVEL<=4){
-		log(RED, parseMsgClient(msg, 'ERROR', false));
+		log(RED, parseMsgClient(msg, 'ERROR'), false, 'ERROR');
 	}
 } 
 
 /*
 * Function to Persist all the logs!.
 */
-function jPersistance (file, msg){
+function jPersistance (file, msg, levelToSave){
 	
 	//File persistance
-	var stream = fs.createWriteStream(file, {'flags': 'a'});
-	stream.once('open', function(fd) {
-	  stream.write(msg+RETURN);
-	  stream.end();
-	});
+	if(FILEPERSISTANCE != false){
+		var stream = fs.createWriteStream(file, {'flags': 'a'});
+		stream.once('open', function(fd) {
+		  stream.write(msg+RETURN);
+		  stream.end();
+		});
+	}
+
+	//Embedded database persistance
+	if(db != null){
+		var doc = { 
+			level: levelToSave
+            , content: msg
+            , date: new Date()
+            , isClient: file==URL_SERVER?false:true
+        };
+
+		db.insert(doc);
+	}
 }
