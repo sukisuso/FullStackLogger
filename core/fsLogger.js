@@ -19,7 +19,7 @@ var FILEPERSISTANCE;
 
 module.exports = function(oLevel, fileperst) {
 
-	OUTPUTLEVEL = oLevel || 2;
+	OUTPUTLEVEL = oLevel || 0;
 	FILEPERSISTANCE = fileperst || false;
 
 	//Output Log path

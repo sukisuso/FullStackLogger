@@ -14,11 +14,11 @@ module.exports = function (server, options){
 	* outputlevel: ['trace', 'debug', 'info', 'warn', 'error']
 	* filePersistance: default false
 	*/
-	
+
 	var fsLogger = require('./core/fsLogger')();
-	var app = require('./core/fsLogger-environment')(__dirname, server, fsLogger);
-	router.redirect(app);
-	app.listen(PORT);
+	var server = require('./core/fsLogger-environment')(__dirname, server, fsLogger);
+	router.redirect(server.app, server.db);
+	server.app.listen(PORT);
 
 return fsLogger;
 } 

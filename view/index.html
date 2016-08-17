@@ -2,9 +2,46 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="resources/css/slick.grid.css" type="text/css"/>
+    <link rel="stylesheet" href="resources/css/jquery-ui-1.8.16.custom.css" type="text/css"/>
+    <link rel="stylesheet" href="resources/css/bulma.css" type="text/css"/>
+    <link rel="stylesheet" href="resources/css/row.css" type="text/css"/>
+    <script src="resources/js/jquery.event.drag-2.2.js"></script>
+    <script src="resources/js/slick.core.js"></script>
+	<script src="resources/js/slick.grid.js"></script>
+	<script src="resources/js/core.js"></script>
+    <title>Full Stack Logger</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-  </body>
+    <h1>Full Stack Logger</h1>
+
+ 
+ <div class="tabs">
+  <ul>
+    <li id="tabClient" class="is-active"><a onclick="changeToClientLogs();">Client Logs</a></li>
+    <li id="tabServer" ><a onclick="changeToServerLogs();">Server Logs</a></li>
+  </ul>
+</div>
+    <div id="myGrid" style="width:1201px; height:505px; margin-bottom: 15px; margin-right: 25px; margin-left: 25px;"></div>
+
+
+<nav class="pagination">
+  <a class="button" onclick="goToPreviousPage();">Previous</a>
+  <a class="button" onclick="goToNextPage();">Next page</a>
+  <ul>
+    <li>
+    </li>
+    <li>
+      <span>...</span>
+    </li>
+    <p id="actualPage">1</p>
+    <li>
+      <span>...</span>
+    </li>
+    <li>
+    </li>
+  </ul>
+</nav>
+</body>
 </html>

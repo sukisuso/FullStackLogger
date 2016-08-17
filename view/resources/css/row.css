@@ -1,0 +1,23 @@
+.error-row {
+   background-color:  #FA5858;
+}
+
+.warn-row{
+	background-color:#D7DF01;
+	filter: alpha(opacity=60);
+}
+
+.info-row{
+	background-color:#5882FA;
+	filter: alpha(opacity=60);
+}
+
+.debug-row{
+	background-color:#31B404;
+	filter: alpha(opacity=60);
+}
+
+.trace-row{
+	background-color:#D358F7;
+	filter: alpha(opacity=60);
+}
