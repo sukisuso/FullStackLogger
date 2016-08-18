@@ -7,7 +7,10 @@
 var express = require('express');
 var app = express();
 var server = app.listen(3000);
-var LOGGER = require ('../../index.js')(server);
+var LOGGER = require ('../../index.js')(server, {
+	outputlevel:'info',
+	filePersistance:false
+});
 
 app.use(express.static(__dirname));
 app.disable('x-powered-by');

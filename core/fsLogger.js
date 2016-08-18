@@ -8,7 +8,7 @@ var RED = '\x1b[31m';
 var YELLOW = '\x1b[33m';
 var BLUE = '\x1b[36m';
 var GREEN = '\x1b[32m';
-var MAG = '\x1b[35m';
+var MAG = '\x1b[95m';
 var DEFAULT = '\x1b[0m';
 var URL_SERVER = './log/serverlog.log';
 var URL_CLIENT = './log/clientlog.log';
@@ -19,7 +19,7 @@ var FILEPERSISTANCE;
 
 module.exports = function(oLevel, fileperst) {
 
-	OUTPUTLEVEL = oLevel || 0;
+	OUTPUTLEVEL = oLevel || 3;
 	FILEPERSISTANCE = fileperst || false;
 
 	//Output Log path
@@ -30,31 +30,31 @@ module.exports = function(oLevel, fileperst) {
 	var fsLogger = {};
 	
 	fsLogger['trace'] = function(msg){
-		if(OUTPUTLEVEL <=0){
+		if(OUTPUTLEVEL <=1){
 			log(MAG, parseMsg(msg, 'TRACE'), true, 'TRACE');
 		}
 	};
 
 	fsLogger['debug'] = function(msg){
-		if(OUTPUTLEVEL <=1){
+		if(OUTPUTLEVEL <=2){
 			log(GREEN, parseMsg(msg, 'DEBUG'), true, 'DEBUG');
 		}
 	};
 
 	fsLogger['info'] = function(msg){
-		if(OUTPUTLEVEL <=2){
+		if(OUTPUTLEVEL <=3){
 			log(BLUE, parseMsg(msg, 'INFO '), true, 'INFO');
 		}
 	};
 
 	fsLogger['warn'] = function(msg){
-		if(OUTPUTLEVEL <=3){
+		if(OUTPUTLEVEL <=4){
 			log(YELLOW, parseMsg(msg, 'WARN '), true, 'WARN');
 		}
 	};
 
 	fsLogger['error'] = function(msg){
-		if(OUTPUTLEVEL <=4){
+		if(OUTPUTLEVEL <=5){
 			log(RED, parseMsg(msg, 'ERROR'), true, 'ERROR');
 		}
 	};
@@ -89,15 +89,15 @@ function parseMsgClient(msg , level){
 
 function logClient (msg, level){
 
-	if(level == 'trace' && OUTPUTLEVEL<=0){
+	if(level == 'trace' && OUTPUTLEVEL<=1){
 		log(MAG, parseMsgClient(msg, 'TRACE'), false, 'TRACE');
-	} else if(level == 'debug' && OUTPUTLEVEL<=1){
+	} else if(level == 'debug' && OUTPUTLEVEL<=2){
 		log(GREEN, parseMsgClient(msg, 'DEBUG'), false, 'DEBUG');
-	}else if(level == 'info' && OUTPUTLEVEL<=2){
+	}else if(level == 'info' && OUTPUTLEVEL<=3){
 		log(BLUE, parseMsgClient(msg, 'INFO '), false, 'INFO');
-	}else if(level == 'warn' && OUTPUTLEVEL<=3){
+	}else if(level == 'warn' && OUTPUTLEVEL<=4){
 		log(YELLOW, parseMsgClient(msg, 'WARN '), false, 'WARN');
-	}else if(level == 'error' && OUTPUTLEVEL<=4){
+	}else if(level == 'error' && OUTPUTLEVEL<=5){
 		log(RED, parseMsgClient(msg, 'ERROR'), false, 'ERROR');
 	}
 } 

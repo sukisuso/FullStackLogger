@@ -15,7 +15,13 @@ module.exports = function (server, options){
 	* filePersistance: default false
 	*/
 
-	var fsLogger = require('./core/fsLogger')();
+	if (options == undefined){
+		options = {};
+	}
+
+	PORT = options.loggerPort || PORT;
+
+	var fsLogger = require('./core/fsLogger')(changeOutputLevel(options.outputlevel), options.filePersistance);
 	var server = require('./core/fsLogger-environment')(__dirname, server, fsLogger);
 	router.redirect(server.app, server.db);
 	server.app.listen(PORT);
@@ -24,3 +30,23 @@ return fsLogger;
 } 
 
 
+function changeOutputLevel (level){
+	if(level == undefined){
+		return null;
+	}
+
+	if(level == 'trace'){
+		return 1;
+	}else if (level == 'debug'){
+		return 2;
+	}else if (level == 'info'){
+		return 3;
+	}else if (level == 'warn'){
+		return 4;
+	}else if (level == 'error'){
+		return 5;
+	}else {
+		return null;
+	}
+
+}
