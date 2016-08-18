@@ -72,7 +72,6 @@ function getLastPageClientLogs(req, res) {
 
 	  	var lastPage =  Math.floor(all.length / PAGE_SIZE);
 	  	var page = lastPage * PAGE_SIZE;
-	  	console.log(page + "  " + lastPage);
 	  	db.find({ isClient: true }).sort({date:-1}).skip(page).limit(PAGE_SIZE).exec(function (err, docs) {
 		  if (err != null){
 		  	console.log(err);

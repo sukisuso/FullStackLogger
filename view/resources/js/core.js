@@ -17,7 +17,7 @@ var actualView = 'client';
     enableColumnReorder: false
   };
 
-  //setInterval(function(){ refresh(); }, 2000);
+  setInterval(function(){ refresh(); }, 2000);
 
   $(function () {
     $.ajax({
