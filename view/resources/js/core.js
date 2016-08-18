@@ -17,7 +17,7 @@ var actualView = 'client';
     enableColumnReorder: false
   };
 
-  setInterval(function(){ refresh(); }, 2000);
+  //setInterval(function(){ refresh(); }, 2000);
 
   $(function () {
     $.ajax({
@@ -201,3 +201,85 @@ function setRowColor (data){
     };
     return data;
 } 
+
+
+function goToPageNumberOne () {
+
+  $('#actualPage')[0].textContent = 1;
+  page = 0;
+
+   if(actualView == 'client'){
+      $.ajax({
+        type: "POST",
+        data:{
+          page:page
+        },
+        url: '/logger/getPageClientLogs',
+        success:function(data){
+          if(data.length != 0){
+            grid.invalidateAllRows();
+            grid = new Slick.Grid("#myGrid", setRowColor(data), columns, options);
+          }else{
+            $('#actualPage')[0].textContent = 1;
+          }
+        }
+      }); 
+
+  }else{
+    $.ajax({
+        type: "POST",
+        data:{
+          page:page
+        },
+        url: '/logger/getPageServerLogs',
+        success:function(data){
+          if(data.length != 0){
+            grid.invalidateAllRows();
+            grid = new Slick.Grid("#myGrid", setRowColor(data), columns, options);
+          }else{
+            $('#actualPage')[0].textContent = 1;
+          }
+        }
+      }); 
+  }
+}
+
+/*
+/logger/getLastPageClientLogs', function(req, res) {getLastPageClientLogs(req,res);});
+  app.post('/logger/getLastPageServerLogs
+*/
+
+function goToLastPage () {
+  var page = parseInt($('#actualPage')[0].textContent);
+
+  if(actualView == 'client'){
+      $.ajax({
+        type: "POST",
+        url: '/logger/getLastPageClientLogs',
+        success:function(data){
+          if(data.data.length != 0){
+            grid.invalidateAllRows();
+            grid = new Slick.Grid("#myGrid", setRowColor(data.data), columns, options);
+            $('#actualPage')[0].textContent = data.page;
+          }else{
+            $('#actualPage')[0].textContent = page;
+          }
+        }
+      }); 
+
+  }else{
+    $.ajax({
+        type: "POST",
+        url: '/logger/getLastPageServerLogs',
+        success:function(data){
+          if(data.data.length != 0){
+            grid.invalidateAllRows();
+            grid = new Slick.Grid("#myGrid", setRowColor(data.data), columns, options);
+            $('#actualPage')[0].textContent = data.page;
+          }else{
+            $('#actualPage')[0].textContent = page;
+          }
+        }
+      }); 
+  }
+}
