@@ -1,4 +1,4 @@
-![alt tag](https://github.com/sukisuso/FullStackLogger/view/resources/logo.png)
+![alt tag](https://github.com/sukisuso/FullStackLogger/blob/master/view/resources/logo.png)
 
 ### Node Js module to debug your Javascript full stack project.
 
@@ -44,6 +44,6 @@
 	</body>
 
 ##### Author
-´ 
+`
  Jesus Juan Aguilar - 2016 - jesusjuanaguilar@gmail.com
-´
+`
