@@ -186,7 +186,12 @@ function refresh () {
 }
 
 function setRowColor (data){
+
   data.getItemMetadata = function (index) {
+
+      this[index].date = this[index].date.replace('T',' ').replace('Z', '').split('.')[0];
+      this[index].content = this[index].content.split('#')[this[index].content.split('#').length-1];
+
       if (this[index].level == "ERROR") {
         return { "cssClasses": "error-row" };
       }else if (this[index].level == "WARN"){

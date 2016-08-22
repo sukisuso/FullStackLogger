@@ -1,6 +1,6 @@
 {
   "name": "FullStackLogger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Logger module for full stack registration",
   "main": "index.js",
   "scripts": {
