@@ -1,7 +1,9 @@
 ![alt tag](https://github.com/sukisuso/FullStackLogger/blob/master/view/resources/logo.png)
 
 ### Node Js module to debug your Javascript full stack project.
-
+`
+	# npm install --save fullstacklogger
+`
 ##### You can use it in your NodeJs Server.
 
 	var express = require('express');
